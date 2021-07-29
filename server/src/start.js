@@ -20,7 +20,7 @@ function startServer({ port = process.env.PORT } = {}) {
   app.use(cookieParser());
   app.use(express.json());
   // all API routes are prefixed with /api/v1
-  app.use("/api/v1", getRoutes());
+  app.use("/api/v1", getRoutes());  
 
   // Generic error handler if errors are missed by 'express-async-errors' middleware
   app.use(errorMiddleware);
