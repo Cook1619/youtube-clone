@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function getAuthUser(req, res, next) {
-  if (!req.cookies.token) {
+  if (!req.headers.token) {
     req.user = null;
     return next();
   }
 
-  const token = req.cookies.token;
+  const token = req.headers.token;
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const user = await prisma.user.findUnique({
