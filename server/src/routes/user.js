@@ -56,30 +56,36 @@ async function getVideos(model, req, res) {
 
 async function toggleSubscribe(req, res, next) {
   if (req.user.id === req.params.userId) {
-    next({
+    return next({
       message: "You cannot subscribe to your own channel",
       statusCode: 400,
     });
   }
+
   const user = await prisma.user.findUnique({
     where: {
       id: req.params.userId,
     },
   });
+
   if (!user) {
-    next({
-      message: `No user found with id ${req.params.userId}`,
+    return next({
+      message: `No user found with id: "${req.params.userId}"`,
       statusCode: 404,
     });
   }
+
   const isSubscribed = await prisma.subscription.findFirst({
     where: {
-      subscriberId: req.user.id,
-    },
-    subscribedToId: {
-      equals: req.params.userId,
+      subscriberId: {
+        equals: req.user.id,
+      },
+      subscribedToId: {
+        equals: req.params.userId,
+      },
     },
   });
+
   if (isSubscribed) {
     await prisma.subscription.delete({
       where: {
@@ -96,12 +102,13 @@ async function toggleSubscribe(req, res, next) {
         },
         subscribedTo: {
           connect: {
-            id: req.params.id,
+            id: req.params.userId,
           },
         },
       },
     });
   }
+
   res.status(200).json({});
 }
 
