@@ -11,6 +11,7 @@ function getUserRoutes() {
   router.get("/liked-videos", protect, getLikedVideos);
   router.get("/history", protect, getHistory);
   router.get("/:userId/toggle-subscribe", protect, toggleSubscribe);
+  router.get("/subscriptions", protect, getFeed);
 
   return router;
 }
@@ -46,7 +47,7 @@ async function getVideos(model, req, res) {
       user: true,
     },
   });
-  if (videos.length) {
+  if (!videos.length) {
     return res.status(200).json({ videos });
   }
   videos = await getVideoViews(videos);
@@ -112,7 +113,37 @@ async function toggleSubscribe(req, res, next) {
   res.status(200).json({});
 }
 
-async function getFeed(req, res) {}
+async function getFeed(req, res) {
+  const subscribedTo = await prisma.subscription.findMany({
+    where: {
+      subscriberId: {
+        equals: req.user.id,
+      },
+    },
+  });
+
+  const subscriptions = subscribedTo.map(sub => sub.subscribedToId);
+
+  const feed = await prisma.video.findMany({
+    where: {
+      userId: {
+        in: subscriptions,
+      },
+    },
+    include: {
+      user: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  if (!feed.length) {
+    return res.status(200).json({ feed });
+  }
+  const feedVideos = await getVideoViews(feed);
+
+  return res.status(200).json({ feed: feedVideos });
+}
 
 async function searchUser(req, res, next) {}
 
