@@ -21,6 +21,7 @@ function getUserRoutes() {
 
   return router;
 }
+console.log("test");
 
 async function getLikedVideos(req, res) {
   await getVideos(prisma.videoLike, req, res);
@@ -205,7 +206,6 @@ async function searchUser(req, res, next) {
         },
       });
     }
-
     user.subscribersCount = subscribersCount;
     user.videosCount = videosCount;
     user.isSubscribed = Boolean(isSubscribed);
