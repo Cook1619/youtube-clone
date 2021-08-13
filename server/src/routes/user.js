@@ -1,5 +1,5 @@
 import express from "express";
-import { protect } from "../middleware/authorization";
+import { protect, getAuthUser } from "../middleware/authorization";
 import { PrismaClient } from "@prisma/client";
 import { getVideoViews } from "../controllers/video";
 
