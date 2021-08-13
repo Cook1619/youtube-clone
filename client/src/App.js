@@ -19,14 +19,14 @@ import Container from "./styles/Container";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
-  // const handleCloseSidebar = () => setSidebarOpen(false);
-  // const toggleSidebarOpen = () => setSidebarOpen(!isSidebarOpen);
-  // useLocationChange(handleCloseSidebar);
+  const handleCloseSidebar = () => setSidebarOpen(false);
+  const toggleSidebarOpen = () => setSidebarOpen(!isSidebarOpen);
+  useLocationChange(handleCloseSidebar);
 
   return (
     <>
-      <Navbar />
-      <Sidebar />
+      <Navbar toggleSidebarOpen={toggleSidebarOpen} />
+      <Sidebar isSidebarOpen={isSidebarOpen} />
       <MobileNavbar />
       <Container>
         <Switch>
