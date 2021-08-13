@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { protect } from "../middleware/authorization";
 import { OAuth2Client } from "google-auth-library";
 
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const prisma = new PrismaClient();
 
@@ -46,7 +47,6 @@ async function googleLogin(req, res) {
   const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
-
   res.cookie("token", token, { httpOnly: true });
   res.status(200).send(token);
 }
