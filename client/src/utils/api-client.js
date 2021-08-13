@@ -1,4 +1,25 @@
-export function authenticate() {}
+import { queryCache } from "react-query";
+import axios from "axios";
+
+export const client = axios.create({
+  baseURL: "/api/v1",
+});
+
+export function authenticate(response) {
+  console.log({ response });
+  client({
+    method: "POST",
+    url: "/auth/google-login",
+    data: { idToken: response.tokenId },
+  })
+    .then(response => {
+      console.log("Sign in success: ", response);
+      window.location.assign(window.location.href);
+    })
+    .catch(error => {
+      console.log("Sign in error: ", error.response);
+    });
+}
 
 export async function signoutUser() {}
 
