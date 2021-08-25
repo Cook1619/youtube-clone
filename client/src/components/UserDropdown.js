@@ -4,14 +4,14 @@ import React from "react";
 import Avatar from "../styles/Avatar";
 import { ChannelIcon, SignoutIcon } from "./Icons";
 
-function UserDropdown() {
+function UserDropdown({ user }) {
   return (
     <Menu>
       <MenuButton>
         <Avatar
-          className="pointer"
-          src="https://dummyimage.com/100x100"
-          alt="username avatar"
+          className='pointer'
+          src='https://dummyimage.com/100x100'
+          alt='username avatar'
         />
       </MenuButton>
       <MenuList>
