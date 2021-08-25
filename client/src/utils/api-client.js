@@ -21,7 +21,10 @@ export function authenticate(response) {
     });
 }
 
-export async function signoutUser() {}
+export async function signoutUser() {
+  await client.get("/auth/signout");
+  window.location.pathname = "/";
+}
 
 export async function updateUser() {}
 
