@@ -28,7 +28,10 @@ export async function signoutUser() {
 
 export async function updateUser() {}
 
-export async function addComment() {}
+export async function addComment({ video, comment }) {
+  await client.post(`/videos/${video.id}/comments`, { text: comment });
+  await queryCache.invalidateQueries(["WatchVideo", video.id]);
+}
 
 export async function addVideo(video) {
   await client.post("/videos", video);
@@ -48,4 +51,7 @@ export async function dislikeVideo() {}
 
 export async function deleteVideo() {}
 
-export async function deleteComment() {}
+export async function deleteComment(comment) {
+  await client.delete(`/videos/${comment.videoId}/comments/${comment.id}`);
+  await queryCache.invalidateQueries("WatchVideo");
+}
