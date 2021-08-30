@@ -38,8 +38,10 @@ function UploadVideo() {
       });
 
       const extension = path.extname(url);
+      // converts this to a jpg
       setThumbnail(url.replace(extension, ".jpg"));
       setUrl(url);
+      // clears value out of input
       event.target.value = "";
     }
   }

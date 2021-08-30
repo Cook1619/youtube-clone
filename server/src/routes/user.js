@@ -21,7 +21,6 @@ function getUserRoutes() {
 
   return router;
 }
-console.log("test");
 
 async function getLikedVideos(req, res) {
   await getVideos(prisma.videoLike, req, res);
