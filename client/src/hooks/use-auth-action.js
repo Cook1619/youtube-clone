@@ -6,7 +6,7 @@ export default function useAuthAction() {
   const user = useAuth();
   const { signIn } = useGoogleLogin({
     onSuccess: authenticate,
-    clientId: "your-client-id",
+    clientId: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
   });
 
   function handleAuthAction(authAction, data) {
